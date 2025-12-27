@@ -1,0 +1,28 @@
+{
+  "name": "chromatic-teams-webhook",
+  "version": "1.0.0",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*.ts"
+  },
+  "scripts": {
+    "deploy:prod": "vercel deploy --prod"
+  },
+  "keywords": [
+    "microsoft",
+    "teams",
+    "webhook",
+    "chromatic"
+  ],
+  "author": "https://github.com/wontory",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.1",
+  "dependencies": {
+    "@vercel/node": "^5.5.16"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "typescript": "^5.9.3",
+    "vercel": "^50.1.3"
+  }
+}

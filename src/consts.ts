@@ -1,0 +1,36 @@
+export const EVENTS = {
+  BUILD_UPDATES: "build",
+  REVIEW_UPDATES: "review",
+  REVIEW_DECISION: "review-decision",
+} as const;
+
+export const RESULTS = {
+  SUCCESS: "SUCCESS",
+  CAPTURE_ERROR: "CAPTURE_ERROR",
+  SYSTEM_ERROR: "SYSTEM_ERROR",
+  TIMEOUT: "TIMEOUT",
+} as const;
+
+export const STATUSES = {
+  PUBLISHED: "PUBLISHED",
+  PREPARED: "PREPARED",
+  IN_PROGRESS: "IN_PROGRESS",
+  PENDING: "PENDING",
+  PASSED: "PASSED",
+  ACCEPTED: "ACCEPTED",
+  DENIED: "DENIED",
+  BROKEN: "BROKEN",
+  CANCELLED: "CANCELLED",
+  FAILED: "FAILED",
+} as const;
+
+export const REVIEW_STATUSES = {
+  OPEN: "OPEN",
+  MERGED: "MERGED",
+  CLOSED: "CLOSED",
+} as const;
+
+export const REVIEW_DECISION_STATUSES = {
+  PENDING: "PENDING",
+  APPROVED: "APPROVED",
+} as const;
