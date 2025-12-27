@@ -2,9 +2,6 @@
   "name": "chromatic-teams-webhook",
   "version": "1.0.0",
   "type": "module",
-  "imports": {
-    "#*": "./src/*.ts"
-  },
   "scripts": {
     "deploy:prod": "vercel deploy --prod"
   },

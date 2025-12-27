@@ -4,7 +4,7 @@ import {
   REVIEW_DECISION_STATUSES,
   REVIEW_STATUSES,
   STATUSES,
-} from "#consts";
+} from "~/consts.js";
 
 export type ChromaticBuildUpdates = {
   version: number;
