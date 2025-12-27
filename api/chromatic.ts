@@ -1,13 +1,13 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-import { EVENTS, RESULTS, REVIEW_DECISION_STATUSES } from "~/consts.js";
+import { EVENTS, RESULTS, REVIEW_DECISION_STATUSES } from "../src/consts.js";
 import type {
   ChromaticBuildUpdates,
   ChromaticPayload,
   ChromaticReviewDecision,
   ChromaticReviewUpdates,
   TeamsMessage,
-} from "~/types.js";
+} from "../src/types.js";
 
 function createTeamsMessage(payload: ChromaticPayload): TeamsMessage | null {
   const { event } = payload;
