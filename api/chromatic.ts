@@ -28,38 +28,39 @@ function buildUpdatesMessage(p: ChromaticBuildUpdates): TeamsMessage | null {
   if (p.build?.result !== RESULTS.SUCCESS) return null;
 
   return adaptiveCard({
-    title: "🚀 Chromatic Build Updates",
+    title: "🚀 빌드 업데이트",
     color: "439FE0",
     facts: [
-      ["Build", `#${p.build?.number}`],
-      ["Status", p.build?.status],
-      ["Result", p.build?.result],
-      ["Project", p.build?.project?.name],
+      ["빌드", `#${p.build?.number}`],
+      ["상태", p.build?.status],
+      ["결과", p.build?.result],
+      ["프로젝트", p.build?.project?.name],
+      ["변경사항", `${p.build?.changeCount}`],
+      ["컴포넌트", `${p.build?.componentCount}`],
+      ["스펙", `${p.build?.specCount}`],
+      ["계정명", p.build?.project?.accountName],
       ["Storybook URL", p.build?.storybookUrl],
-      ["Web URL", p.build?.project?.webUrl],
-      ["Changes", `${p.build?.changeCount}`],
-      ["Components", `${p.build?.componentCount}`],
-      ["Specs", `${p.build?.specCount}`],
-      ["Account Name", p.build?.project?.accountName],
+      ["Chromatic URL", p.build?.project?.webUrl],
     ],
-    url: p.build?.webUrl,
+    chromaticUrl: p.build?.webUrl,
+    storybookUrl: p.build?.storybookUrl,
   });
 }
 
 function reviewUpdatesMessage(p: ChromaticReviewUpdates): TeamsMessage {
   return adaptiveCard({
-    title: "👀 Review Updates",
+    title: "👀 리뷰 업데이트",
     color: "E01E5A",
     facts: [
-      ["Review", `#${p.review?.number}`],
-      ["Title", p.review?.title],
-      ["Status", p.review?.status],
-      ["Base Ref", p.review?.baseRefName],
-      ["Head Ref", p.review?.headRefName],
-      ["Is Cross Repository", p.review?.isCrossRepository ? "Yes" : "No"],
-      ["Author Username", p.review?.author?.username],
+      ["리뷰", `#${p.review?.number}`],
+      ["제목", p.review?.title],
+      ["상태", p.review?.status],
+      ["베이스 브랜치", p.review?.baseRefName],
+      ["헤드 브랜치", p.review?.headRefName],
+      ["크로스 리포지토리 여부", p.review?.isCrossRepository ? "예" : "아니오"],
+      ["작성자", p.review?.author?.username],
     ],
-    url: p.review?.webUrl,
+    chromaticUrl: p.review?.webUrl,
   });
 }
 
@@ -69,21 +70,21 @@ function reviewDecisionMessage(p: ChromaticReviewDecision): TeamsMessage {
   const emoji = passed ? "✅" : "❌";
 
   return adaptiveCard({
-    title: `${emoji} Review Decision ${p.reviewDecision?.status}`,
+    title: `${emoji} 리뷰 결정 ${p.reviewDecision?.status}`,
     color,
     facts: [
-      ["Review", `#${p.reviewDecision?.review?.number}`],
-      ["Title", p.reviewDecision?.review?.title],
-      ["Status", p.reviewDecision?.review?.status],
-      ["Base Ref", p.reviewDecision?.review?.baseRefName],
-      ["Head Ref", p.reviewDecision?.review?.headRefName],
+      ["리뷰", `#${p.reviewDecision?.review?.number}`],
+      ["제목", p.reviewDecision?.review?.title],
+      ["상태", p.reviewDecision?.review?.status],
+      ["베이스 브랜치", p.reviewDecision?.review?.baseRefName],
+      ["헤드 브랜치", p.reviewDecision?.review?.headRefName],
       [
-        "Is Cross Repository",
-        p.reviewDecision?.review?.isCrossRepository ? "Yes" : "No",
+        "크로스 리포지토리 여부",
+        p.reviewDecision?.review?.isCrossRepository ? "예" : "아니오",
       ],
-      ["Author Username", p.reviewDecision?.review?.author?.username],
+      ["작성자", p.reviewDecision?.review?.author?.username],
     ],
-    url: p.reviewDecision?.review?.webUrl,
+    chromaticUrl: p.reviewDecision?.review?.webUrl,
   });
 }
 
@@ -91,12 +92,14 @@ function adaptiveCard({
   title,
   color,
   facts,
-  url,
+  chromaticUrl,
+  storybookUrl,
 }: {
   title: string;
   color: string;
   facts: [string, string | undefined][];
-  url: string;
+  chromaticUrl: string;
+  storybookUrl?: string;
 }): TeamsMessage {
   return {
     $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -121,9 +124,18 @@ function adaptiveCard({
         actions: [
           {
             type: "Action.OpenUrl",
-            title: "View in Chromatic",
-            url: url,
+            title: "Chromatic 바로가기",
+            url: chromaticUrl,
           },
+          ...(storybookUrl
+            ? [
+                {
+                  type: "Action.OpenUrl",
+                  title: "Storybook 바로가기",
+                  url: storybookUrl,
+                },
+              ]
+            : []),
         ],
       },
     ],
